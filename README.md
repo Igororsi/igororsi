@@ -1,21 +1,62 @@
-# Fila de Prioridade Heap
+# Sistema de Triagem Hospitalar com Heap Binário
 
-## Compilar
+## Descrição
+
+Projeto desenvolvido para implementar uma fila de prioridade utilizando Heap Binário.
+
+O sistema simula o atendimento do hospital “São Binário”, onde pacientes são atendidos conforme prioridade clínica.
+
+---
+
+## Regras de Prioridade
+
+1. Maior nível de urgência;
+2. Maior tempo de espera;
+3. Grupo vulnerável.
+
+---
+
+## Tecnologias
+
+- Java
+- Heap Binário
+- GitHub Pages
+- Javadoc
+
+---
+
+## Estrutura
+
+- Paciente.java
+- FilaComPrioridade.java
+- Main.java
+
+---
+
+## Compilação
 
 ```bash
-javac -d out src/entidades/Pessoa.java src/estatica/FilaEstatica.java src/estatica/FilaComPrioridade.java src/heap/FilaComPrioridadeHeap.java src/Main.java
+javac src/entidades/Paciente.java src/estatica/FilaComPrioridade.java src/Main.java
 ```
 
-## Executar
+---
+
+## Execução
 
 ```bash
-java -cp out Main
+java -cp src Main
 ```
 
-## Gerar Javadoc
+---
+
+## Javadoc
 
 ```bash
-javadoc -d doc -sourcepath src -subpackages estatica:heap:entidades
+javadoc -d docs src/entidades/Paciente.java src/estatica/FilaComPrioridade.java src/Main.java
 ```
 
-Abrir a documentação: `doc/index.html`
+---
+
+## Autor
+
+Igor Orsi Dallagnelo
