@@ -1,43 +1,44 @@
-import java.util.PriorityQueue;
-import java.util.Queue;
-
-import entidades.Pessoa;
+import entidades.Paciente;
 import estatica.FilaComPrioridade;
 
 public class Main {
-    public static void main(String args[]){
-        System.out.println("--- Fila de Inteiros ---");
 
-        FilaComPrioridade<Integer> fila = new FilaComPrioridade<>(10);
+    public static void main(String[] args) {
 
-        fila.enfileirar(1);
-        fila.enfileirar(3);
-        fila.enfileirar(2);
+        FilaComPrioridade fila = new FilaComPrioridade();
 
-        System.out.println(fila);
+        Paciente p1 = new Paciente("Carlos", 2, 45, false);
+        Paciente p2 = new Paciente("Maria", 5, 5, false);
+        Paciente p3 = new Paciente("João", 3, 20, false);
+        Paciente p4 = new Paciente("Beatriz", 3, 35, true);
+        Paciente p5 = new Paciente("Pedro", 5, 2, false);
+        Paciente p6 = new Paciente("Helena", 2, 45, true);
 
-        System.out.println("\n--- Fila de Pessoas ---");
+        System.out.println("===== INSERINDO PACIENTES =====\n");
 
-        FilaComPrioridade<Pessoa> filaPessoas = new FilaComPrioridade<>(10);
+        fila.enqueue(p1);
+        fila.imprimirHeap();
 
-        filaPessoas.enfileirar(new Pessoa("Adão", 1));
-        filaPessoas.enfileirar(new Pessoa("Carlos", 3));
-        filaPessoas.enfileirar(new Pessoa("Bruno", 2));
+        fila.enqueue(p2);
+        fila.imprimirHeap();
 
-        while (!filaPessoas.estaVazia()) {
-            System.out.println(filaPessoas.desenfileirar());
-        }
+        fila.enqueue(p3);
+        fila.imprimirHeap();
 
-        System.out.println("\n--- Fila de Pessoas (PriorityQueue) ---");
+        fila.enqueue(p4);
+        fila.imprimirHeap();
 
-        Queue<Pessoa> filaPessoasJava = new PriorityQueue<>(10);
+        fila.enqueue(p5);
+        fila.imprimirHeap();
 
-        filaPessoasJava.add(new Pessoa("Adão", 1));
-        filaPessoasJava.add(new Pessoa("Carlos", 3));
-        filaPessoasJava.add(new Pessoa("Bruno", 2));
+        fila.enqueue(p6);
+        fila.imprimirHeap();
 
-        while (!filaPessoasJava.isEmpty()) {
-            System.out.println(filaPessoasJava.poll());
+        System.out.println("===== ORDEM DE ATENDIMENTO =====\n");
+
+        while (!fila.isEmpty()) {
+
+            System.out.println(fila.dequeue());
         }
     }
 }

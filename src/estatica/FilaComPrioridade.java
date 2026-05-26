@@ -1,53 +1,117 @@
 package estatica;
 
-public class FilaComPrioridade<T> extends FilaEstatica<T> {
+import entidades.Paciente;
+import java.util.ArrayList;
 
-    public FilaComPrioridade(int capacidade) {
-        super(capacidade);
+public class FilaComPrioridade {
+
+    private ArrayList<Paciente> heap;
+
+    public FilaComPrioridade() {
+        heap = new ArrayList<>();
     }
 
-    @Override
-    public void enfileirar(T elemento) {
-        if (estaCheia()) {
-            throw new RuntimeException("A fila está cheia.");
-        }
+    // ENFILEIRAR -> SOBE HEAP
+    public void enqueue(Paciente paciente) {
 
-        Comparable<T> elementoOrdenavel = (Comparable<T>) elemento;
+        heap.add(paciente);
 
-        int posicao;
-        for (posicao = 0; posicao < tamanho(); posicao++) {
-            if (elementoOrdenavel.compareTo(elementos[posicao]) < 0) {
+        sobeHeap(heap.size() - 1);
+    }
+
+    private void sobeHeap(int indice) {
+
+        while (indice > 0) {
+
+            int pai = (indice - 1) / 2;
+
+            if (heap.get(indice).maiorPrioridade(heap.get(pai))) {
+
+                trocar(indice, pai);
+
+                indice = pai;
+
+            } else {
                 break;
             }
         }
-
-        adicionaPosicao(posicao, elemento);
     }
 
-    public void adicionaPosicao(int posicao, T elemento) {
-		if (posicao < 0 || posicao > tamanho) {
-			throw new IllegalArgumentException("Posição inválida");
-		}
+    // DESENFILEIRAR -> DESCE HEAP
+    public Paciente dequeue() {
 
-        // Mover todos os elementos
-		for (int i = tamanho - 1; i >= posicao; i--) {
-			elementos[i+1] = elementos[i];
-		}
+        if (heap.isEmpty()) {
+            return null;
+        }
 
-		elementos[posicao] = elemento;
-		tamanho++;
-	}
+        Paciente raiz = heap.get(0);
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("[");
-        for (int i = 0; i < tamanho; i++) {
-            sb.append(elementos[i]);
-            if (i < tamanho - 1) {
-                sb.append(", ");
+        Paciente ultimo = heap.remove(heap.size() - 1);
+
+        if (!heap.isEmpty()) {
+
+            heap.set(0, ultimo);
+
+            desceHeap(0);
+        }
+
+        return raiz;
+    }
+
+    private void desceHeap(int indice) {
+
+        while (true) {
+
+            int maior = indice;
+
+            int esquerda = 2 * indice + 1;
+            int direita = 2 * indice + 2;
+
+            if (esquerda < heap.size() &&
+                    heap.get(esquerda).maiorPrioridade(heap.get(maior))) {
+
+                maior = esquerda;
+            }
+
+            if (direita < heap.size() &&
+                    heap.get(direita).maiorPrioridade(heap.get(maior))) {
+
+                maior = direita;
+            }
+
+            if (maior != indice) {
+
+                trocar(indice, maior);
+
+                indice = maior;
+
+            } else {
+                break;
             }
         }
-        sb.append("]");
-        return sb.toString();
+    }
+
+    private void trocar(int i, int j) {
+
+        Paciente temp = heap.get(i);
+
+        heap.set(i, heap.get(j));
+
+        heap.set(j, temp);
+    }
+
+    public boolean isEmpty() {
+        return heap.isEmpty();
+    }
+
+    public void imprimirHeap() {
+
+        System.out.println("Estado atual do Heap:");
+
+        for (Paciente p : heap) {
+            System.out.println(p);
+        }
+
+        System.out.println();
     }
 }
